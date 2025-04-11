@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VS Code для macOS - Шпаргалка</title>
+    <style>
+        :root {
+            --primary-color: #0078d7;
+            --secondary-color: #2c2c32;
+            --text-color: #333;
+            --background-color: #f9f9f9;
+            --border-color: #ddd;
+            --header-bg: #2c2c32;
+            --header-text: #ffffff;
+            --card-bg: #ffffff;
+            --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --kbd-bg: #f1f1f1;
+            --kbd-border: #ddd;
+            --kbd-text: #333;
+            --highlight-bg: #fff8dc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding-bottom: 60px;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .logo-title img {
+            width: 40px;
+            height: 40px;
+        }
+
+        nav {
+            background-color: #f2f2f2;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 79px;
+            z-index: 900;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav li {
+            margin: 5px 10px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: rgba(0, 120, 215, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 30px 0 15px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            scroll-margin-top: 140px;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin: 25px 0 15px;
+            color: var(--secondary-color);
+            scroll-margin-top: 140px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 5px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .search-container {
+            margin: 20px 0;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .shortcuts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .shortcuts-table th, .shortcuts-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            text-align: left;
+        }
+
+        .shortcuts-table th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+        }
+
+        .shortcuts-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .shortcuts-table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        kbd {
+            background-color: var(--kbd-bg);
+            border: 1px solid var(--kbd-border);
+            border-radius: 3px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+            color: var(--kbd-text);
+            display: inline-block;
+            font-size: 0.85em;
+            font-family: monospace;
+            line-height: 1;
+            padding: 2px 5px;
+            margin: 0 2px;
+        }
+
+        .note {
+            background-color: var(--highlight-bg);
+            padding: 15px;
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .note p:last-child {
+            margin-bottom: 0;
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            background-color: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.9em;
+            border: 1px solid var(--border-color);
+        }
+
+        .highlight {
+            background-color: yellow;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        .tab-container {
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab {
+            padding: 10px 15px;
+            background-color: #f5f5f5;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            background-color: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            background-color: white;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .theme-switch {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .theme-switch label {
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            h3 {
+                font-size: 1.3rem;
+            }
+            .container {
+                padding: 15px;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav li {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-title">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" alt="VS Code Logo">
+            <h1>VS Code для macOS - Шпаргалка</h1>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#basics">Основы</a></li>
+            <li><a href="#editing">Редактирование</a></li>
+            <li><a href="#navigation">Навигация</a></li>
+            <li><a href="#search">Поиск</a></li>
+            <li><a href="#multi-cursor">Мультикурсор</a></li>
+            <li><a href="#debugging">Отладка</a></li>
+            <li><a href="#terminal">Терминал</a></li>
+            <li><a href="#customization">Настройка</a></li>
+            <li><a href="#extensions">Расширения</a></li>
+            <li><a href="#tips">Советы</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Поиск по шпаргалке...">
+        </div>
+
+        <div class="card">
+            <h2 id="intro">Введение</h2>
+            <p>Visual Studio Code - это мощный редактор кода с открытым исходным кодом, разработанный Microsoft. Эта шпаргалка содержит наиболее полезные комбинации клавиш и советы для macOS, которые помогут вам повысить продуктивность работы.</p>
+            
+            <div class="note">
+                <p><strong>Примечание:</strong> В VS Code используются следующие модификаторы клавиш для macOS:</p>
+                <ul>
+                    <li><kbd>⌘</kbd> (Command)</li>
+                    <li><kbd>⌥</kbd> (Option/Alt)</li>
+                    <li><kbd>⇧</kbd> (Shift)</li>
+                    <li><kbd>⌃</kbd> (Control)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="card">
+                <h2 id="basics">Основные комбинации клавиш</h2>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th>Действие</th>
+                            <th>Комбинация клавиш</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Командная палитра (Command Palette)</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>P</kbd> или <kbd>F1</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Быстрое открытие файла</td>
+                            <td><kbd>⌘</kbd> + <kbd>P</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Создать новый файл</td>
+                            <td><kbd>⌘</kbd> + <kbd>N</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Сохранить файл</td>
+                            <td><kbd>⌘</kbd> + <kbd>S</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Сохранить как...</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>S</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Сохранить все файлы</td>
+                            <td><kbd>⌥</kbd> + <kbd>⌘</kbd> + <kbd>S</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Закрыть редактор</td>
+                            <td><kbd>⌘</kbd> + <kbd>W</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Закрыть все редакторы</td>
+                            <td><kbd>⌘</kbd> + <kbd>K</kbd> затем <kbd>⌘</kbd> + <kbd>W</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Переключить боковую панель</td>
+                            <td><kbd>⌘</kbd> + <kbd>B</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Переключить полноэкранный режим</td>
+                            <td><kbd>⌃</kbd> + <kbd>⌘</kbd> + <kbd>F</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Увеличить масштаб</td>
+                            <td><kbd>⌘</kbd> + <kbd>=</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Уменьшить масштаб</td>
+                            <td><kbd>⌘</kbd> + <kbd>-</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Сбросить масштаб</td>
+                            <td><kbd>⌘</kbd> + <kbd>0</kbd></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2 id="editing">Редактирование кода</h2>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th>Действие</th>
+                            <th>Комбинация клавиш</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Комментировать/раскомментировать строку</td>
+                            <td><kbd>⌘</kbd> + <kbd>/</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Комментировать выделенный блок</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌥</kbd> + <kbd>A</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Переместить строку вверх</td>
+                            <td><kbd>⌥</kbd> + <kbd>↑</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Переместить строку вниз</td>
+                            <td><kbd>⌥</kbd> + <kbd>↓</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Копировать строку вверх</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌥</kbd> + <kbd>↑</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Копировать строку вниз</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌥</kbd> + <kbd>↓</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Удалить строку</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>K</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Вставить строку ниже</td>
+                            <td><kbd>⌘</kbd> + <kbd>Enter</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Вставить строку выше</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>Enter</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Выделить слово</td>
+                            <td><kbd>⌘</kbd> + <kbd>D</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Выделить все вхождения</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>L</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Выделить до следующего вхождения</td>
+                            <td><kbd>⌘</kbd> + <kbd>D</kbd> (повторно)</td>
+                        </tr>
+                        <tr>
+                            <td>Отменить последнее выделение</td>
+                            <td><kbd>⌘</kbd> + <kbd>U</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Автоформатирование кода</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌥</kbd> + <kbd>F</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Сворачивание кода</td>
+                            <td><kbd>⌥</kbd> + <kbd>⌘</kbd> + <kbd>[</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Разворачивание кода</td>
+                            <td><kbd>⌥</kbd> + <kbd>⌘</kbd> + <kbd>]</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Свернуть все</td>
+                            <td><kbd>⌘</kbd> + <kbd>K</kbd> затем <kbd>⌘</kbd> + <kbd>0</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Развернуть все</td>
+                            <td><kbd>⌘</kbd> + <kbd>K</kbd> затем <kbd>⌘</kbd> + <kbd>J</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к определению</td>
+                            <td><kbd>F12</kbd> или <kbd>⌘</kbd> + клик</td>
+                        </tr>
+                        <tr>
+                            <td>Подсказка (IntelliSense)</td>
+                            <td><kbd>⌃</kbd> + <kbd>Space</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Параметры подсказки</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>Space</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Быстрые исправления (Quick Fix)</td>
+                            <td><kbd>⌘</kbd> + <kbd>.</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Переименовать символ</td>
+                            <td><kbd>F2</kbd></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2 id="navigation">Навигация по коду</h2>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th>Действие</th>
+                            <th>Комбинация клавиш</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Перейти к строке</td>
+                            <td><kbd>⌃</kbd> + <kbd>G</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к файлу</td>
+                            <td><kbd>⌘</kbd> + <kbd>P</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к символу в файле</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>O</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к символу в рабочей области</td>
+                            <td><kbd>⌘</kbd> + <kbd>T</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к определению</td>
+                            <td><kbd>F12</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Показать список определений</td>
+                            <td><kbd>⌥</kbd> + <kbd>F12</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к реализации</td>
+                            <td><kbd>⌘</kbd> + <kbd>F12</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к ссылкам</td>
+                            <td><kbd>⇧</kbd> + <kbd>F12</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Назад в истории навигации</td>
+                            <td><kbd>⌃</kbd> + <kbd>-</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Вперед в истории навигации</td>
+                            <td><kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>-</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к парной скобке</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>\</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к началу файла</td>
+                            <td><kbd>⌘</kbd> + <kbd>↑</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к концу файла</td>
+                            <td><kbd>⌘</kbd> + <kbd>↓</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к началу строки</td>
+                            <td><kbd>Home</kbd> или <kbd>⌘</kbd> + <kbd>←</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к концу строки</td>
+                            <td><kbd>End</kbd> или <kbd>⌘</kbd> + <kbd>→</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к следующей проблеме</td>
+                            <td><kbd>F8</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Перейти к предыдущей проблеме</td>
+                            <td><kbd>⇧</kbd> + <kbd>F8</kbd></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2 id="search">Поиск и замена</h2>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th>Действие</th>
+                            <th>Комбинация клавиш</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Найти</td>
+                            <td><kbd>⌘</kbd> + <kbd>F</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Заменить</td>
+                            <td><kbd>⌥</kbd> + <kbd>⌘</kbd> + <kbd>F</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Найти следующее</td>
+                            <td><kbd>⌘</kbd> + <kbd>G</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Найти предыдущее</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>G</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Найти в файлах</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>F</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Заменить в файлах</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>H</kbd></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2 id="multi-cursor">Мультикурсор и выделение</h2>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th>Действие</th>
+                            <th>Комбинация клавиш</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Добавить курсор выше</td>
+                            <td><kbd>⌥</kbd> + <kbd>⌘</kbd> + <kbd>↑</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Добавить курсор ниже</td>
+                            <td><kbd>⌥</kbd> + <kbd>⌘</kbd> + <kbd>↓</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Добавить курсор в конец каждой выделенной строки</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌥</kbd> + <kbd>I</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Выделить все вхождения текущего выделения</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>L</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Выделить следующее вхождение</td>
+                            <td><kbd>⌘</kbd> + <kbd>D</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Добавить курсор на клик</td>
+                            <td><kbd>⌥</kbd> + клик</td>
+                        </tr>
+                        <tr>
+                            <td>Коробочное выделение</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌥</kbd> + перетаскивание мышью</td>
+                        </tr>
+                        <tr>
+                            <td>Выделить строку</td>
+                            <td><kbd>⌘</kbd> + <kbd>L</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Расширить выделение</td>
+                            <td><kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>→</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Сужать выделение</td>
+                            <td><kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>←</kbd></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2 id="debugging">Отладка</h2>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th>Действие</th>
+                            <th>Комбинация клавиш</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Начать/Продолжить отладку</td>
+                            <td><kbd>F5</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Пауза</td>
+                            <td><kbd>F6</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Остановить отладку</td>
+                            <td><kbd>⇧</kbd> + <kbd>F5</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Шаг с заходом (Step Into)</td>
+                            <td><kbd>F11</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Шаг с обходом (Step Over)</td>
+                            <td><kbd>F10</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Шаг с выходом (Step Out)</td>
+                            <td><kbd>⇧</kbd> + <kbd>F11</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Установить/Убрать точку останова</td>
+                            <td><kbd>F9</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Временная точка останова</td>
+                            <td><kbd>⇧</kbd> + <kbd>F9</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Отключить все точки останова</td>
+                            <td><kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>F5</kbd></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2 id="terminal">Интегрированный терминал</h2>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th>Действие</th>
+                            <th>Комбинация клавиш</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Открыть/Закрыть терминал</td>
+                            <td><kbd>⌃</kbd> + <kbd>`</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Создать новый терминал</td>
+                            <td><kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>`</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Переключиться на следующий терминал</td>
+                            <td><kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>5</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Переключиться на предыдущий терминал</td>
+                            <td><kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>6</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Увеличить размер терминала</td>
+                            <td><kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>↑</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Уменьшить размер терминала</td>
+                            <td><kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>↓</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Очистить терминал</td>
+                            <td><kbd>⌘</kbd> + <kbd>K</kbd> (в активном терминале)</td>
+                        </tr>
+                        <tr>
+                            <td>Прокрутить терминал вверх</td>
+                            <td><kbd>⌘</kbd> + <kbd>↑</kbd> (в активном терминале)</td>
+                        </tr>
+                        <tr>
+                            <td>Прокрутить терминал вниз</td>
+                            <td><kbd>⌘</kbd> + <kbd>↓</kbd> (в активном терминале)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2 id="customization">Настройка сочетаний клавиш</h2>
+                <p>VS Code позволяет полностью настраивать сочетания клавиш под себя. Вот как это сделать:</p>
+
+                <h3>Открыть редактор сочетаний клавиш</h3>
+                <p>Нажмите <kbd>⌘</kbd> + <kbd>K</kbd> затем <kbd>⌘</kbd> + <kbd>S</kbd> или выберите <code>Code → Preferences → Keyboard Shortcuts</code>.</p>
+
+                <h3>Поиск сочетаний клавиш</h3>
+                <p>В редакторе сочетаний клавиш вы можете:</p>
+                <ul>
+                    <li>Искать по названию команды</li>
+                    <li>Искать по текущему сочетанию клавиш</li>
+                    <li>Искать по категории</li>
+                </ul>
+
+                <h3>Изменение сочетания клавиш</h3>
+                <p>Чтобы изменить сочетание клавиш:</p>
+                <ol>
+                    <li>Найдите команду, сочетание для которой вы хотите изменить</li>
+                    <li>Нажмите на значок "+" справа от команды</li>
+                    <li>Нажмите желаемую комбинацию клавиш</li>
+                    <li>Нажмите Enter для сохранения</li>
+                </ol>
+
+                <h3>Ручное редактирование файла keybindings.json</h3>
+                <p>Вы также можете напрямую редактировать файл конфигурации сочетаний клавиш:</p>
+                <ol>
+                    <li>Откройте редактор сочетаний клавиш (<kbd>⌘</kbd> + <kbd>K</kbd> затем <kbd>⌘</kbd> + <kbd>S</kbd>)</li>
+                    <li>Нажмите на значок "Open Keyboard Shortcuts (JSON)" в правом верхнем углу</li>
+                    <li>Добавьте свои сочетания клавиш в формате JSON</li>
+                </ol>
+
+                <div class="note">
+                    <p><strong>Пример записи в keybindings.json:</strong></p>
+<pre>[
+  {
+    "key": "cmd+k e",
+    "command": "workbench.files.action.focusOpenEditorsView",
+    "when": "workbench.explorer.openEditorsView.active"
+  },
+  {
+    "key": "cmd+k c",
+    "command": "workbench.files.action.compareWithClipboard"
+  },
+  {
+    "key": "alt+cmd+c",
+    "command": "editor.action.commentLine",
+    "when": "editorTextFocus && !editorReadonly"
+  }
+]</pre>
+                </div>
+
+                <h3>Ключевые компоненты настройки сочетаний клавиш</h3>
+                <ul>
+                    <li><code>key</code>: комбинация клавиш</li>
+                    <li><code>command</code>: команда, которую нужно выполнить</li>
+                    <li><code>when</code>: условие, при котором действует сочетание (опционально)</li>
+                </ul>
+
+                <h3>Условные сочетания клавиш</h3>
+                <p>Вы можете создавать сочетания клавиш, которые работают только в определенных контекстах, используя условие <code>when</code>:</p>
+                <ul>
+                    <li><code>editorFocus</code>: когда редактор в фокусе</li>
+                    <li><code>terminalFocus</code>: когда терминал в фокусе</li>
+                    <li><code>explorerViewletVisible</code>: когда explorer виден</li>
+                    <li><code>searchViewletVisible</code>: когда поиск виден</li>
+                    <li>и многие другие...</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2 id="extensions">Работа с расширениями</h2>
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th>Действие</th>
+                            <th>Комбинация клавиш</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Открыть расширения</td>
+                            <td><kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>X</kbd></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Рекомендуемые расширения для macOS</h3>
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" data-target="general">Общие</div>
+                        <div class="tab" data-target="javascript">JavaScript/TypeScript</div>
+                        <div class="tab" data-target="python">Python</div>
+                        <div class="tab" data-target="web">Веб-разработка</div>
+                    </div>
+                    <div class="tab-content active" id="general">
+                        <ul>
+                            <li><strong>Settings Sync</strong> - Синхронизация настроек VS Code между устройствами</li>
+                            <li><strong>GitHub Copilot</strong> - AI-помощник для написания кода</li>
+                            <li><strong>GitLens</strong> - Расширенная интеграция с Git</li>
+                            <li><strong>Peacock</strong> - Изменение цвета окна VS Code для разных проектов</li>
+                            <li><strong>Path Intellisense</strong> - Автодополнение путей к файлам</li>
+                            <li><strong>Better Comments</strong> - Улучшенное форматирование комментариев</li>
+                            <li><strong>Error Lens</strong> - Подсветка ошибок в коде</li>
+                            <li><strong>Code Spell Checker</strong> - Проверка орфографии в коде</li>
+                            <li><strong>Bookmarks</strong> - Закладки в коде</li>
+                            <li><strong>Thunder Client</strong> - Легковесная альтернатива Postman для API-тестирования</li>
+                        </ul>
+                    </div>
+                    <div class="tab-content" id="javascript">
+                        <ul>
+                            <li><strong>ESLint</strong> - Линтинг JavaScript и TypeScript</li>
+                            <li><strong>Prettier</strong> - Форматирование кода</li>
+                            <li><strong>JavaScript (ES6) code snippets</strong> - Сниппеты ES6</li>
+                            <li><strong>ES7+ React/Redux/React-Native snippets</strong> - Сниппеты для React</li>
+                            <li><strong>npm Intellisense</strong> - Автодополнение npm модулей</li>
+                            <li><strong>Import Cost</strong> - Показывает размер импортируемых пакетов</li>
+                            <li><strong>Tabnine AI Autocomplete</strong> - ИИ автодополнение для JavaScript</li>
+                            <li><strong>Jest</strong> - Запуск и отладка Jest тестов</li>
+                            <li><strong>Quokka.js</strong> - Живая среда выполнения JavaScript/TypeScript</li>
+                            <li><strong>Turbo Console Log</strong> - Быстрое добавление console.log</li>
+                        </ul>
+                    </div>
+                    <div class="tab-content" id="python">
+                        <ul>
+                            <li><strong>Python</strong> - Основное расширение для Python</li>
+                            <li><strong>Pylance</strong> - Статический анализ кода для Python</li>
+                            <li><strong>Jupyter</strong> - Поддержка Jupyter Notebooks</li>
+                            <li><strong>autoDocstring</strong> - Генерация документации Python</li>
+                            <li><strong>Python Indent</strong> - Корректные отступы в Python</li>
+                            <li><strong>Python Test Explorer</strong> - Запуск и отладка тестов Python</li>
+                            <li><strong>Python Preview</strong> - Визуализация выполнения Python кода</li>
+                            <li><strong>Python Type Hint</strong> - Подсказки типов для Python</li>
+                            <li><strong>Black Formatter</strong> - Форматирование кода по PEP</li>
+                            <li><strong>AREPL for Python</strong> - Отображение результатов выполнения в реальном времени</li>
+                        </ul>
+                    </div>
+                    <div class="tab-content" id="web">
+                        <ul>
+                            <li><strong>Live Server</strong> - Локальный сервер с автообновлением</li>
+                            <li><strong>HTML CSS Support</strong> - Автодополнение HTML и CSS</li>
+                            <li><strong>CSS Peek</strong> - Переход к CSS определению из HTML</li>
+                            <li><strong>Auto Rename Tag</strong> - Автоматическое переименование закрывающего тега</li>
+                            <li><strong>Color Highlight</strong> - Подсветка цветовых кодов</li>
+                            <li><strong>Tailwind CSS IntelliSense</strong> - Поддержка Tailwind CSS</li>
+                            <li><strong>SVG Viewer</strong> - Просмотр SVG в редакторе</li>
+                            <li><strong>REST Client</strong> - Отправка HTTP запросов из VS Code</li>
+                            <li><strong>CSS Modules</strong> - Поддержка CSS Modules</li>
+                            <li><strong>Browser Preview</strong> - Предпросмотр страниц в редакторе</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Установка расширений через командную строку</h3>
+                <p>Вы можете устанавливать расширения напрямую через терминал с помощью команды <code>code</code>:</p>
+<pre>code --install-extension publisher.extension-name</pre>
+                <p>Пример:</p>
+<pre>code --install-extension dbaeumer.vscode-eslint</pre>
+
+                <div class="note">
+                    <p><strong>Совет:</strong> Чтобы использовать команду <code>code</code> в терминале, вам нужно сначала установить CLI. Откройте командную палитру (<kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>P</kbd>) и выполните команду "Shell Command: Install 'code' command in PATH".</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 id="tips">Советы и приемы для повышения продуктивности</h2>
+                
+                <h3>Настройки VS Code для macOS</h3>
+                <p>Некоторые особенности настройки VS Code для работы на macOS:</p>
+                <ul>
+                    <li><strong>Системные сочетания клавиш:</strong> Некоторые сочетания клавиш VS Code могут конфликтовать с системными. Проверьте в Системных настройках → Клавиатура → Сочетания клавиш.</li>
+                    <li><strong>Terminal Shell:</strong> Настройте стандартный shell в settings.json:
+<pre>"terminal.integrated.defaultProfile.osx": "zsh"</pre>
+                    </li>
+                    <li><strong>Font Ligatures:</strong> Включите лигатуры для лучшей читабельности кода:
+<pre>"editor.fontFamily": "Fira Code", 
+"editor.fontLigatures": true</pre>
+                    </li>
+                </ul>
+
+                <h3>Настройки Touch Bar</h3>
+                <p>VS Code поддерживает настройку Touch Bar на MacBook Pro. Вы можете добавить в settings.json:</p>
+<pre>"keyboard.touchbar.enabled": true,
+"keyboard.touchbar.ignored": []</pre>
+
+                <h3>Сниппеты кода</h3>
+                <p>Создание собственных сниппетов может значительно ускорить вашу работу:</p>
+                <ol>
+                    <li>Откройте командную палитру (<kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>P</kbd>)</li>
+                    <li>Введите "Snippets: Configure User Snippets"</li>
+                    <li>Выберите язык, для которого хотите создать сниппет</li>
+                </ol>
+                <p>Пример сниппета для JavaScript:</p>
+<pre>{
+  "Console log": {
+    "prefix": "cl",
+    "body": [
+      "console.log($1);"
+    ],
+    "description": "Console log"
+  }
+}</pre>
+
+                <h3>Многооконный режим работы</h3>
+                <p>VS Code поддерживает работу с несколькими окнами и группами редакторов:</p>
+                <ul>
+                    <li><kbd>⌘</kbd> + <kbd>\\</kbd> - Разделить редактор</li>
+                    <li><kbd>⌘</kbd> + <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - Фокус на 1-й/2-й/3-й группе редакторов</li>
+                    <li><kbd>⌃</kbd> + <kbd>⌘</kbd> + <kbd>N</kbd> - Открыть новое окно VS Code</li>
+                </ul>
+
+                <h3>Встроенные инструменты повышения производительности</h3>
+                <ul>
+                    <li><strong>Zen Mode:</strong> <kbd>⌘</kbd> + <kbd>K</kbd> затем <kbd>Z</kbd> - режим без отвлекающих элементов</li>
+                    <li><strong>Breadcrumbs:</strong> Навигация по структуре файла (включить в настройках)</li>
+                    <li><strong>Find All References:</strong> <kbd>⇧</kbd> + <kbd>F12</kbd> - найти все использования символа</li>
+                    <li><strong>Linked Editing:</strong> "editor.linkedEditing": true - автоматически переименовывает HTML теги</li>
+                </ul>
+
+                <h3>Git интеграция</h3>
+                <p>VS Code имеет мощную интеграцию с Git:</p>
+                <ul>
+                    <li><kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>G</kbd> - Открыть панель Git</li>
+                    <li><kbd>⌘</kbd> + <kbd>K</kbd> <kbd>⌘</kbd> + <kbd>G</kbd> - Status панель Git</li>
+                    <li>Отображение изменений в редакторе (gutter)</li>
+                    <li>Встроенный инструмент разрешения конфликтов</li>
+                </ul>
+
+                <h3>Оптимизация для Mac с Apple Silicon</h3>
+                <p>Начиная с VS Code версии 1.54, добавлена нативная поддержка для Mac с процессорами Apple Silicon (M1/M2/M3). Оптимизированная версия обеспечивает:</p>
+                <ul>
+                    <li>Повышенную производительность</li>
+                    <li>Лучшее время автономной работы</li>
+                    <li>Больше совместимых расширений</li>
+                </ul>
+                <p>Убедитесь, что у вас установлена версия для Apple Silicon, а не запущенная через Rosetta 2 x86 версия.</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <script>
+        // Функция для поиска по странице
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchText = this.value.toLowerCase();
+            if (searchText.length < 2) {
+                // Убираем все выделения если поисковый запрос слишком короткий
+                removeHighlights();
+                return;
+            }
+            
+            searchInPage(searchText);
+        });
+
+        function searchInPage(searchText) {
+            // Сначала убираем предыдущие выделения
+            removeHighlights();
+            
+            const content = document.querySelector('.container');
+            const tables = document.querySelectorAll('.shortcuts-table tbody tr');
+            let found = false;
+
+            // Поиск в таблицах сочетаний клавиш
+            tables.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                let rowFound = false;
+                
+                cells.forEach(cell => {
+                    if (cell.textContent.toLowerCase().includes(searchText)) {
+                        highlightText(cell, searchText);
+                        rowFound = true;
+                        found = true;
+                    }
+                });
+                
+                if (rowFound) {
+                    row.style.backgroundColor = '#fff8e6';
+                } else {
+                    row.style.backgroundColor = '';
+                }
+            });
+
+            // Поиск в остальном контенте
+            const paragraphs = content.querySelectorAll('p, li, h2, h3, h4');
+            paragraphs.forEach(p => {
+                if (p.textContent.toLowerCase().includes(searchText)) {
+                    highlightText(p, searchText);
+                    found = true;
+                }
+            });
+
+            if (found) {
+                // Если что-то найдено, прокручиваем к первому найденному элементу
+                const firstHighlight = document.querySelector('.highlight');
+                if (firstHighlight) {
+                    firstHighlight.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+            }
+        }
+
+        function highlightText(element, searchText) {
+            const innerHTML = element.innerHTML;
+            const index = element.textContent.toLowerCase().indexOf(searchText);
+            if (index >= 0) {
+                const length = searchText.length;
+                const before = element.textContent.slice(0, index);
+                const match = element.textContent.slice(index, index + length);
+                const after = element.textContent.slice(index + length);
+                
+                // Создаем безопасную замену, сохраняя HTML-теги
+                const tempElement = document.createElement('div');
+                tempElement.textContent = before;
+                const beforeHtml = tempElement.innerHTML;
+                
+                tempElement.textContent = match;
+                const matchHtml = tempElement.innerHTML;
+                
+                tempElement.textContent = after;
+                const afterHtml = tempElement.innerHTML;
+                
+                element.innerHTML = beforeHtml + '<span class="highlight">' + matchHtml + '</span>' + afterHtml;
+            }
+        }
+
+        function removeHighlights() {
+            const highlights = document.querySelectorAll('.highlight');
+            highlights.forEach(h => {
+                const parent = h.parentNode;
+                parent.replaceChild(document.createTextNode(h.textContent), h);
+                parent.normalize();
+            });
+            
+            // Восстанавливаем стили строк в таблицах
+            const tableRows = document.querySelectorAll('.shortcuts-table tbody tr');
+            tableRows.forEach(row => {
+                row.style.backgroundColor = '';
+            });
+        }
+
+        // Кнопка "Наверх"
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Обработчик табов для расширений
+        const tabs = document.querySelectorAll('.tab');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Убираем активный класс со всех табов
+                document.querySelectorAll('.tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // Скрываем все контенты табов
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Добавляем активный класс к выбранному табу
+                tab.classList.add('active');
+                
+                // Показываем соответствующий контент
+                const targetId = tab.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+
+        // Плавный скролл для якорных ссылок
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
